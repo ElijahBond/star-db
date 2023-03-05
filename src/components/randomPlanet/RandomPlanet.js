@@ -9,17 +9,20 @@ import './randomPlanet.css';
 class RandomPlanet extends Component {
 
     swapiService = new SwapiService();
-    
-    constructor() {
-        super();
-        this.updatePlanet()
-        setInterval(this.updatePlanet, 400000)
-    }
 
     state = {
         planet: {},
         loading: true,
         error: false
+    }
+
+    componentDidMount() {
+        this.updatePlanet()
+        this.interval = setInterval(this.updatePlanet, 400000)
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval)
     }
 
     onPlanetLoaded = (planet) => {
