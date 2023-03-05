@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import SwapiService from '../../services/SwapiService';
+import ErrorIndicator from "../errorIndicator/ErrorIndicator";
 import Spinner from "../spinner/Spinner";
 
 import './randomPlanet.css';
@@ -12,34 +13,74 @@ class RandomPlanet extends Component {
     constructor() {
         super();
         this.updatePlanet()
+        setInterval(this.updatePlanet, 400000)
     }
 
     state = {
-        planet: {}
+        planet: {},
+        loading: true,
+        error: false
     }
 
     onPlanetLoaded = (planet) => {
-        this.setState({planet})
+        this.setState({
+            planet,
+            loading: false})
     };
 
-    updatePlanet() {
+    onError = (err) => {
+        this.setState({
+            error: true,
+            loading: false
+        })
+    }
+
+    updatePlanet = () => {
         const id = Math.floor(Math.random() * 25 + 2);
         this.swapiService
             .getPlanet(id)
             .then(this.onPlanetLoaded)
+            .catch(this.onError);
     }
 
     render() {
+        const { planet, loading, error } = this.state;
 
-        const { planet: {name, population, rotationPeriod, diameter, id} } = this.state;
+        const hasContent = !(loading || error)
+
+        const errorMessage = error ? <ErrorIndicator /> : null;
+        const spinner = loading ? 
+            (<div className="spinner">
+                <Spinner />
+            </div>) 
+            : null;
+
+        const content = hasContent ? <PlanetView planet={planet} /> : null;
 
         return (
             <div className="random-planet jumbotron rounded">
-                <div className="spinner">
-                    <Spinner />
-                </div>
-                
-                {/* <img className="planet-image"
+                {errorMessage}
+                { spinner }
+                { content }
+            </div>
+        )
+    }
+};
+
+export default RandomPlanet;
+
+const PlanetView = ({ planet }) => {
+
+    const { name, 
+        population, 
+        rotationPeriod, 
+        diameter, 
+        id
+        } = planet;
+
+    return (
+        <>
+            <img className="planet-image"
                     src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`}
                     alt="some planet" />
                 <div>
@@ -60,10 +101,7 @@ class RandomPlanet extends Component {
                             <span>{diameter}</span>
                         </li>
                     </ul>
-                </div> */}
-            </div>
-        )
-    }
-};
-
-export default RandomPlanet;
+                </div>
+        </>
+    )
+}
