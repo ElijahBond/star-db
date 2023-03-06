@@ -3,7 +3,8 @@ import React, { Component } from "react";
 import Row from '../Row/Row';
 import SwapiService from "../../services/SwapiService";
 import ItemList from "../itemList/ItemList";
-import PersonDetails from "../personDetails/PersonDetails";
+import ItemDetails, { Record } from "../itemDetails/ItemDetails";
+import { SwapiServiceConsumer } from "../swapi-service-context/Swapi-service-context";
 
 class PeoplePage extends Component {
 
@@ -30,7 +31,20 @@ class PeoplePage extends Component {
         );
 
         const pesonDetails = (
-            <PersonDetails personId={this.state.selectedPerson} />
+            <SwapiServiceConsumer>
+                {
+                    ({ getPerson, getPersonImage}) => {
+                        <ItemDetails 
+                            itemId={3} //this.state.selectedPerson
+                            getData={getPerson}
+                            getImageUrl={getPersonImage}>
+
+                            <Record field='gender' label='Gender' />
+                            <Record field='eyeColor' label='Eye Color' />
+                        </ItemDetails>
+                    }
+                }
+            </SwapiServiceConsumer>
         )
 
 

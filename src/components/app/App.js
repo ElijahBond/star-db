@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import Header from "../header/Header";
 import PeoplePage from "../peoplePage/PeoplePage";
 import RandomPlanet from "../randomPlanet/RandomPlanet";
+import { SwapiServiceProvider } from '../swapi-service-context/Swapi-service-context';
 
 class App extends Component {
 
@@ -13,7 +14,9 @@ class App extends Component {
                 <Header />
                 <RandomPlanet />
                 
-                <PeoplePage />
+                <SwapiServiceProvider value={this.swapiService}>
+                    <PeoplePage />
+                </SwapiServiceProvider>
             </div>
         )
     }

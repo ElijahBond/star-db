@@ -6,8 +6,6 @@ import './itemList.css';
 
 class ItemList extends Component {
 
-    
-
     state = {
         itemList: null
     }
