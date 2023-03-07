@@ -6,8 +6,17 @@ import PeoplePage from "../peoplePage/PeoplePage";
 import PlanetsPage from "../planetsPage/PlanetsPage";
 import RandomPlanet from "../randomPlanet/RandomPlanet";
 import StarshipPage from "../starshipPage/StarshipPage";
+import SecretPage from "../pages/secret-page";
+import LogingPage from "../pages/login-page";
 
 class App extends Component {
+    state = {
+        isLoggedIn: false
+    }
+
+    onLogin = () => {
+        this.setState({ isLoggedIn: true })
+    }
 
     render() {
 
@@ -19,7 +28,18 @@ class App extends Component {
                             <Route path="/" element={ <h2>Welcome</h2> } />
                             <Route path='/people/' element={<PeoplePage />}/>
                             <Route path='/planets/' element={<PlanetsPage />}/>
-                            <Route path='/starships/' element={<StarshipPage />}/>  
+                            <Route path='/starships/' element={<StarshipPage />}/>
+                            <Route 
+                                path='/login' 
+                                element={
+                                    <LogingPage 
+                                        isLoggedIn={this.state.isLoggedIn}
+                                        onLogin={this.onLogin} replace />
+                                }
+                                /> 
+                            <Route 
+                                path='/secret' 
+                                element={<SecretPage isLoggedIn={this.state.isLoggedIn} replace />}/> 
                     </Routes>
             </div>
         )
