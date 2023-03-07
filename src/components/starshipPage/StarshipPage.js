@@ -6,7 +6,7 @@ import ItemList from "../itemList/ItemList";
 import ItemDetails, { Record } from "../itemDetails/ItemDetails";
 import { SwapiServiceConsumer } from "../swapi-service-context/Swapi-service-context";
 
-class PeoplePage extends Component {
+class StarshipPage extends Component {
 
     swapiService = new SwapiService();
 
@@ -25,7 +25,7 @@ class PeoplePage extends Component {
         const itemList = (
             <ItemList 
                 onItemSelected={this.onPersonSelected}
-                getData={this.swapiService.getAllPeople}
+                getData={this.swapiService.getAllStarships}
                 renderItem={({ name, gender}) => `${name} (${gender})`} 
             />
         );
@@ -33,8 +33,8 @@ class PeoplePage extends Component {
         const pesonDetails = (
                         <ItemDetails 
                             itemId={3} //this.state.selectedPerson
-                            getData={this.swapiService.getPerson}
-                            getImageUrl={this.swapiService.getPersonImage}
+                            getData={this.swapiService.getStarship}
+                            getImageUrl={this.swapiService.getStarshipImage}
                             >
 
                             <Record field='gender' label='Gender' />
@@ -49,4 +49,4 @@ class PeoplePage extends Component {
     };
 };
 
-export default PeoplePage;
+export default StarshipPage;

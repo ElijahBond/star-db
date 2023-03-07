@@ -66,7 +66,8 @@ class ItemDetails extends Component {
                 <img
                     className="item-image"
                     src={image}
-                    alt="some item" />
+                    alt="some item"
+                    style={{ width: '200px', margin: '10px auto 0 auto', borderRadius: '10px'}} />
 
                 <div className="card-body description">
                     <h4>{name}</h4>
